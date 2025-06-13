@@ -85,6 +85,25 @@ form{
     flex-grow: 1;
     transition: 200ms ease;
 }
+.edit-button{
+    padding: 3px;
+    background: none;
+    border: none;
+    display: flex;
+    border-radius: .15rem;
+    justify-content: start;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-color);
+}
+.edit-button svg{
+    transition: 200ms ease;
+}
+.edit-button:hover{
+    transition: 200ms ease;
+    background-color: var(--select-color);
+    border-color: var(--primary-color);
+}
 .delete-button{
     padding: 3px;
     background: none;
