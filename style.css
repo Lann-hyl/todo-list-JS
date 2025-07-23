@@ -85,6 +85,10 @@ form{
     flex-grow: 1;
     transition: 200ms ease;
 }
+.todo.dragging :where(.custom-checkbox, .todo-text, .dropdown){
+    opacity: 0;
+    transition: 0ms;
+}
 .edit-button{
     padding: 3px;
     background: none;
