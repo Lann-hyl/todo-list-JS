@@ -79,15 +79,24 @@ form{
     display: flex;
     align-items: center;
 }
-.todo .todo-quantity{
-    padding: 15px;
-    padding-right: 0;
+.todo-quantity{
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+    font-size: 16pt;
+    padding: 5px;
+    margin-right: 5px;
     flex-grow: 0;
     transition: 200ms ease;
     cursor: text;
 }
 .todo .todo-text{
     padding: 15px;
+    padding-left: 0;
     padding-right: 0;
     flex-grow: 1;
     transition: 200ms ease;
@@ -97,7 +106,7 @@ form{
     transition: 0ms;
 }
 .quantity-buttons{
-    margin-left: 15px;
+    margin-right: 5px;
     display: grid;
 }
 .quantity-buttons > .minus-one-button + .plus-one-button{
@@ -186,6 +195,7 @@ form{
     flex-shrink: 0;
     transition: 200ms ease;
     cursor: pointer;
+    margin-right: 15px;
 }
 input[type="checkbox"]:checked ~ .custom-checkbox{
     background-color: var(--accent-color);
@@ -196,6 +206,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox svg{
 input[type="checkbox"]:checked ~ .todo-quantity {
     text-decoration: line-through;
     color: var(--secondary-color);
+    background-color: var(--primary-color);
 }
 input[type="checkbox"]:checked ~ .todo-text {
     text-decoration: line-through;

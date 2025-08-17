@@ -29,7 +29,7 @@ function addTodo() {
     const todoText = todoInput.value.trim();
     if (todoText.length > 0){
         const todoObject = {
-            quantity: 1,
+            quantity: 1.0,
             displayQuantity: false,
             text: todoText,
             completed: false
@@ -72,9 +72,9 @@ function createTodoItem(todo, todoIndex) {
             </button>
         </div>
 
-        <label for="${todoID}" class="todo-quantity" style="display:none">
+        <button for="${todoID}" class="todo-quantity" style="display:none">
             ${todo.quantity}
-        </label>
+        </button>
         
         <label for="${todoID}" class="todo-text">
             ${todo.text}
@@ -131,12 +131,17 @@ function createTodoItem(todo, todoIndex) {
 
     const quantityPlusOneButton = todoLI.querySelector(".plus-one-button");
     quantityPlusOneButton.addEventListener("click", () => {
-        adjustByOneQuantityTodo(todoIndex, 1);
+        adjustByOneQuantityTodo(todoIndex, 1.0);
     })
 
     const quantityMinusOneButton = todoLI.querySelector(".minus-one-button");
     quantityMinusOneButton.addEventListener("click", () => {
-        adjustByOneQuantityTodo(todoIndex, -1);
+        adjustByOneQuantityTodo(todoIndex, -1.0);
+    })
+    
+    const quantityText = todoLI.querySelector(".todo-quantity");
+    quantityText.addEventListener("click", () => {
+        editQuantityTodo(todoIndex);
     })
 
     // Edit Button
@@ -179,11 +184,12 @@ function createTodoItem(todo, todoIndex) {
     return todoLI;
 }
 
+// Show or hide todo quantity
 function toggleTodoQuantity(todoIndex) {
     let todo = todoList[todoIndex];
     if (!('displayQuantity' in todo)) {
         todo.displayQuantity = false;
-        todo.quantity = 1;
+        todo.quantity = 1.0;
     }
 
     todo.displayQuantity = !todo.displayQuantity;
@@ -191,16 +197,33 @@ function toggleTodoQuantity(todoIndex) {
     saveTodos();
 }
 
+// Increment or decrement todo quantity
 function adjustByOneQuantityTodo(todoIndex, n) {
     let todo = todoList[todoIndex];
-    todo.quantity += n;
-    if (todo.quantity < 0) {
-        // Do not update the list if quantity is less than 0
+    todo.quantity = +(todo.quantity + n).toFixed(2);
+    if (todo.quantity <= -1) {
+        // Do not update the list if we decrement when quantity is already 0
         todo.quantity = 0;
         return;
+    } else if (todo.quantity < 0) {
+        // Snap quantity to 0
+        todo.quantity = 0;
     }
     updateTodoList();
     saveTodos();
+}
+
+// Edit quantity directly via prompting the user
+function editQuantityTodo(todoIndex) {
+    let quantity = parseFloat(prompt("Enter new ToDo quantity", todoList[todoIndex].quantity.toString()));
+    quantity = +parseFloat(quantity).toFixed(2);
+    if (quantity === null || quantity === "" || isNaN(quantity) || quantity < 0) {
+        return;
+    } else {
+        todoList[todoIndex].quantity = quantity;
+        updateTodoList();
+        saveTodos();
+    }
 }
 
 
@@ -216,7 +239,7 @@ function editTodoItem(todoIndex) {
     }
 }
 
-// Delete item of todo list
+// Delete item from todo list
 function deleteTodoItem(todoIndex) {
     todoList = todoList.filter((_, i) => i !== todoIndex);
     updateTodoList();
