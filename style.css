@@ -96,6 +96,34 @@ form{
     opacity: 0.5;
     transition: 0ms;
 }
+.quantity-buttons{
+    margin-left: 15px;
+    display: grid;
+}
+.quantity-buttons > .minus-one-button + .plus-one-button{
+    grid-area: 1/1;
+}
+.minus-one-button, .plus-one-button{
+    padding: 2px;
+    background: none;
+    background-color: var(--secondary-color);
+    border: none;
+    display: flex;
+    flex-grow: 0;
+    border-radius: .15rem;
+    justify-content: start;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-color);
+}
+.minus-one-button svg, .plus-one-button svg{
+    transition: 200ms ease;
+}
+.minus-one-button:hover, .plus-one-button:hover{
+    transition: 200ms ease;
+    background-color: var(--select-color);
+    border-color: var(--primary-color);
+}
 .quantityToggle-button{
     padding: 3px;
     background: none;

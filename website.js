@@ -63,6 +63,15 @@ function createTodoItem(todo, todoIndex) {
             <svg fill="transparent" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
         </label>
         
+        <div class="quantity-buttons" style="display:none">
+            <button class="plus-one-button"> 
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M240-280v-120H120v-80h120v-120h80v120h120v80H320v120h-80Zm390 80v-438l-92 66-46-70 164-118h64v560h-90Z"/></svg>
+            </button>
+            <button class="minus-one-button"> 
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M400-400H120v-80h280v80Zm230 200v-438l-92 66-46-70 164-118h64v560h-90Z"/></svg>
+            </button>
+        </div>
+
         <label for="${todoID}" class="todo-quantity" style="display:none">
             ${todo.quantity}
         </label>
@@ -111,12 +120,23 @@ function createTodoItem(todo, todoIndex) {
 
     // Quantity Display
     if (todo.displayQuantity) {
+        todoLI.querySelector(".quantity-buttons").style.display = "grid";
         todoLI.querySelector(".todo-quantity").style.display = "flex";
     }
 
-    const quantityButton = todoLI.querySelector(".quantityToggle-button");
-    quantityButton.addEventListener("click", () => {
-        toggleQuantityTodoItem(todoIndex);
+    const quantityToggle = todoLI.querySelector(".quantityToggle-button");
+    quantityToggle.addEventListener("click", () => {
+        toggleTodoQuantity(todoIndex);
+    })
+
+    const quantityPlusOneButton = todoLI.querySelector(".plus-one-button");
+    quantityPlusOneButton.addEventListener("click", () => {
+        adjustByOneQuantityTodo(todoIndex, 1);
+    })
+
+    const quantityMinusOneButton = todoLI.querySelector(".minus-one-button");
+    quantityMinusOneButton.addEventListener("click", () => {
+        adjustByOneQuantityTodo(todoIndex, -1);
     })
 
     // Edit Button
@@ -159,7 +179,7 @@ function createTodoItem(todo, todoIndex) {
     return todoLI;
 }
 
-function toggleQuantityTodoItem(todoIndex) {
+function toggleTodoQuantity(todoIndex) {
     let todo = todoList[todoIndex];
     if (!('displayQuantity' in todo)) {
         todo.displayQuantity = false;
@@ -167,6 +187,18 @@ function toggleQuantityTodoItem(todoIndex) {
     }
 
     todo.displayQuantity = !todo.displayQuantity;
+    updateTodoList();
+    saveTodos();
+}
+
+function adjustByOneQuantityTodo(todoIndex, n) {
+    let todo = todoList[todoIndex];
+    todo.quantity += n;
+    if (todo.quantity < 0) {
+        // Do not update the list if quantity is less than 0
+        todo.quantity = 0;
+        return;
+    }
     updateTodoList();
     saveTodos();
 }
