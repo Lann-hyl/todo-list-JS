@@ -79,6 +79,13 @@ form{
     display: flex;
     align-items: center;
 }
+.todo .todo-quantity{
+    padding: 15px;
+    padding-right: 0;
+    flex-grow: 0;
+    transition: 200ms ease;
+    cursor: text;
+}
 .todo .todo-text{
     padding: 15px;
     padding-right: 0;
@@ -88,6 +95,17 @@ form{
 .todo.dragging :where(.custom-checkbox, .todo-text, .dropdown){
     opacity: 0.5;
     transition: 0ms;
+}
+.quantityToggle-button{
+    padding: 3px;
+    background: none;
+    border: none;
+    display: flex;
+    border-radius: .15rem;
+    justify-content: start;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-color);
 }
 .edit-button{
     padding: 3px;
@@ -146,6 +164,10 @@ input[type="checkbox"]:checked ~ .custom-checkbox{
 }
 input[type="checkbox"]:checked ~ .custom-checkbox svg{
     fill: var(--primary-color);
+}
+input[type="checkbox"]:checked ~ .todo-quantity {
+    text-decoration: line-through;
+    color: var(--secondary-color);
 }
 input[type="checkbox"]:checked ~ .todo-text {
     text-decoration: line-through;

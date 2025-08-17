@@ -29,6 +29,8 @@ function addTodo() {
     const todoText = todoInput.value.trim();
     if (todoText.length > 0){
         const todoObject = {
+            quantity: 1,
+            displayQuantity: false,
             text: todoText,
             completed: false
         }
@@ -60,7 +62,11 @@ function createTodoItem(todo, todoIndex) {
         <label class="custom-checkbox" for="${todoID}">
             <svg fill="transparent" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
         </label>
-
+        
+        <label for="${todoID}" class="todo-quantity" style="display:none">
+            ${todo.quantity}
+        </label>
+        
         <label for="${todoID}" class="todo-text">
             ${todo.text}
         </label>
@@ -68,6 +74,10 @@ function createTodoItem(todo, todoIndex) {
         <div for="${todoID}" class="dropdown">
             <button class="dropdown-button"> <svg fill="var(--secondary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg> </button>
             <div class="dropdown-menu">
+                <button class="quantityToggle-button"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Zm-20 200h80v-400H380v80h80v320Z"/></svg>
+                    Toggle quantity
+                </button>
                 <button class="edit-button"> 
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
                     Edit  
@@ -98,6 +108,16 @@ function createTodoItem(todo, todoIndex) {
             if (dropdown !== currentDropdown) dropdown.classList.remove('active');
         });
     });
+
+    // Quantity Display
+    if (todo.displayQuantity) {
+        todoLI.querySelector(".todo-quantity").style.display = "flex";
+    }
+
+    const quantityButton = todoLI.querySelector(".quantityToggle-button");
+    quantityButton.addEventListener("click", () => {
+        toggleQuantityTodoItem(todoIndex);
+    })
 
     // Edit Button
     const editButton = todoLI.querySelector(".edit-button");
@@ -138,6 +158,19 @@ function createTodoItem(todo, todoIndex) {
 
     return todoLI;
 }
+
+function toggleQuantityTodoItem(todoIndex) {
+    let todo = todoList[todoIndex];
+    if (!('displayQuantity' in todo)) {
+        todo.displayQuantity = false;
+        todo.quantity = 1;
+    }
+
+    todo.displayQuantity = !todo.displayQuantity;
+    updateTodoList();
+    saveTodos();
+}
+
 
 // Edit text of todo item
 function editTodoItem(todoIndex) {
