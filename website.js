@@ -31,6 +31,8 @@ function addTodo() {
         const todoObject = {
             quantity: 1.0,
             displayQuantity: false,
+            deadline: new Date(),
+            displayDeadline: false,
             text: todoText,
             completed: false
         }
@@ -46,6 +48,14 @@ function addTodo() {
 function updateTodoList() {
     todoListUl.innerHTML = "";
     todoList.forEach((todo, todoIndex) => {
+        if (!('displayQuantity' in todo)) {
+            todo.displayQuantity = false;
+            todo.quantity = 1.0;
+        }
+        if (!('displayDeadline' in todo)) {
+            todo.displayDeadline = false;
+            todo.deadline = new Date();
+        }
         todoItem = createTodoItem(todo, todoIndex);
         todoListUl.append(todoItem);
     });
@@ -80,9 +90,20 @@ function createTodoItem(todo, todoIndex) {
             ${todo.text}
         </label>
 
+
+        <div for="${todoID}" class="deadline" style="display:none">
+            <label>due by:</label>
+            <input id="${todoID}" class="deadline-form" type="datetime-local" ></input>
+        </div>
+
         <div for="${todoID}" class="dropdown">
             <button class="dropdown-button"> <svg fill="var(--secondary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg> </button>
+
             <div class="dropdown-menu">
+                <button class="deadlineToggle-button"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M680-80v-120H560v-80h120v-120h80v120h120v80H760v120h-80Zm-480-80q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h40v-80h80v80h240v-80h80v80h40q33 0 56.5 23.5T760-720v244q-20-3-40-3t-40 3v-84H200v320h280q0 20 3 40t11 40H200Zm0-480h480v-80H200v80Zm0 0v-80 80Z"/></svg>
+                    Toggle deadline
+                </button>
                 <button class="quantityToggle-button"> 
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Zm-20 200h80v-400H380v80h80v320Z"/></svg>
                     Toggle quantity
@@ -129,6 +150,7 @@ function createTodoItem(todo, todoIndex) {
         toggleTodoQuantity(todoIndex);
     })
 
+    // Quantity edit functions
     const quantityPlusOneButton = todoLI.querySelector(".plus-one-button");
     quantityPlusOneButton.addEventListener("click", () => {
         adjustByOneQuantityTodo(todoIndex, 1.0);
@@ -143,6 +165,17 @@ function createTodoItem(todo, todoIndex) {
     quantityText.addEventListener("click", () => {
         editQuantityTodo(todoIndex);
     })
+
+    // Deadline display
+    if (todo.displayDeadline) {
+        todoLI.querySelector(".deadline").style.display = "inline";
+    }
+
+    const deadlineToggle = todoLI.querySelector(".deadlineToggle-button");
+    deadlineToggle.addEventListener("click", () => {
+        toggleTodoDeadline(todoIndex);
+    })
+
 
     // Edit Button
     const editButton = todoLI.querySelector(".edit-button");
@@ -187,15 +220,20 @@ function createTodoItem(todo, todoIndex) {
 // Show or hide todo quantity
 function toggleTodoQuantity(todoIndex) {
     let todo = todoList[todoIndex];
-    if (!('displayQuantity' in todo)) {
-        todo.displayQuantity = false;
-        todo.quantity = 1.0;
-    }
-
     todo.displayQuantity = !todo.displayQuantity;
     updateTodoList();
     saveTodos();
 }
+
+// Show or hide todo deadline
+function toggleTodoDeadline(todoIndex) {
+    let todo = todoList[todoIndex];
+    todo.displayDeadline = !todo.displayDeadline;
+    updateTodoList();
+    saveTodos();
+}
+
+
 
 // Increment or decrement todo quantity
 function adjustByOneQuantityTodo(todoIndex, n) {
