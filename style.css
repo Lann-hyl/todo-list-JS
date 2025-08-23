@@ -133,6 +133,25 @@ form{
     background-color: var(--select-color);
     border-color: var(--primary-color);
 }
+.edit-button{
+    padding: 3px;
+    background: none;
+    border: none;
+    display: flex;
+    border-radius: .15rem;
+    justify-content: start;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-color);
+}
+.edit-button svg{
+    transition: 200ms ease;
+}
+.edit-button:hover{
+    transition: 200ms ease;
+    background-color: var(--select-color);
+    border-color: var(--primary-color);
+}
 .quantityToggle-button{
     padding: 3px;
     background: none;
@@ -143,6 +162,14 @@ form{
     align-items: center;
     cursor: pointer;
     color: var(--text-color);
+}
+.quantityToggle-button svg{
+    transition: 200ms ease;
+}
+.quantityToggle-button:hover{
+    transition: 200ms ease;
+    background-color: var(--select-color);
+    border-color: var(--primary-color);
 }
 .edit-button{
     padding: 3px;
