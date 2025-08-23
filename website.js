@@ -6,6 +6,24 @@ let draggedIndex = null;
 let todoList = loadTodos(); 
 updateTodoList();
 
+
+// ========================================================
+// Helper functions
+
+// Modified from https://stackoverflow.com/a/17415677
+function pad(num) {
+    return (num < 10 ? '0' : '') + num;
+}
+
+function toIsoString(date) {
+  return date.getFullYear() +
+      '-' + pad(date.getMonth() + 1) +
+      '-' + pad(date.getDate()) +
+      'T' + pad(date.getHours()) +
+      ':' + pad(date.getMinutes());
+}
+// ========================================================
+
 // Closes any open dropdown menu when clicking outside
 document.addEventListener('click', e => {
     const isDropdownButton = e.target.matches(".dropdown-button");
@@ -93,7 +111,7 @@ function createTodoItem(todo, todoIndex) {
 
         <div for="${todoID}" class="deadline" style="display:none">
             <label>due by:</label>
-            <input id="${todoID}" class="deadline-form" type="datetime-local" ></input>
+            <input id="${todoID}" class="deadline-form" type="datetime-local" value="${toIsoString(todo.deadline)}"></input>
         </div>
 
         <div for="${todoID}" class="dropdown">
@@ -293,5 +311,10 @@ function saveTodos() {
 // Load list from localStorage
 function loadTodos() {
     const todos = localStorage.getItem("todos") || "[]";
-    return JSON.parse(todos);
+    return JSON.parse(todos, (key, value) => {
+        if (key === "deadline") {
+            return new Date(value);
+        }
+        return value;
+    });
 }
