@@ -145,6 +145,7 @@ form{
     border: none;
     align-items: center;
     color: var(--text-color);
+    color-scheme: dark;
     background-color: var(--primary-color);
     font-size: 14pt;
     padding: 5px;
