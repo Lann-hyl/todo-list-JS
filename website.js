@@ -153,14 +153,6 @@ function createTodoItem(todo, todoIndex) {
         </div>`;
     
     // Add event listeners
-    // Checkbox
-    const checkbox = todoLI.querySelector("input");
-    checkbox.addEventListener("change", () => {
-        todoList[todoIndex].completed = checkbox.checked;
-        saveTodos();
-    });
-    checkbox.checked = todo.completed;
-
     // Dropdown
     const dropdownButton = todoLI.querySelector(".dropdown-button");
     dropdownButton.addEventListener("click", () => {
@@ -264,6 +256,23 @@ function createTodoItem(todo, todoIndex) {
             updateTodoList();
         }
     })
+
+    // Checkbox
+    const checkbox = todoLI.querySelector("input");
+    checkbox.addEventListener("change", () => {
+        todoList[todoIndex].completed = checkbox.checked;
+        quantityPlusOneButton.disabled = checkbox.checked;
+        quantityMinusOneButton.disabled = checkbox.checked;
+        deadlineDateInput.disabled = checkbox.checked;
+        deadlineTimeInput.disabled = checkbox.checked;
+        saveTodos();
+    });
+    
+    checkbox.checked = todo.completed;
+    quantityPlusOneButton.disabled = todo.completed;
+    quantityMinusOneButton.disabled = todo.completed;
+    deadlineDateInput.disabled = todo.completed;
+    deadlineTimeInput.disabled = todo.completed;
 
     return todoLI;
 }

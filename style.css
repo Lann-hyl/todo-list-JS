@@ -152,7 +152,7 @@ form{
     transition: 200ms ease;
     cursor: text;
 }
-.deadlineToggle-button{
+.deadlineToggle-button, .quantityToggle-button, .edit-button, .delete-button{
     padding: 3px;
     background: none;
     border: none;
@@ -163,62 +163,13 @@ form{
     cursor: pointer;
     color: var(--text-color);
 }
-.deadlineToggle-button svg{
+:is(.deadlineToggle-button, .quantityToggle-button, .edit-button) svg{
     transition: 200ms ease;
 }
-.deadlineToggle-button:hover{
+:is(.deadlineToggle-button, .quantityToggle-button, .edit-button):hover{
     transition: 200ms ease;
     background-color: var(--select-color);
     border-color: var(--primary-color);
-}
-.quantityToggle-button{
-    padding: 3px;
-    background: none;
-    border: none;
-    display: flex;
-    border-radius: .15rem;
-    justify-content: start;
-    align-items: center;
-    cursor: pointer;
-    color: var(--text-color);
-}
-.quantityToggle-button svg{
-    transition: 200ms ease;
-}
-.quantityToggle-button:hover{
-    transition: 200ms ease;
-    background-color: var(--select-color);
-    border-color: var(--primary-color);
-}
-.edit-button{
-    padding: 3px;
-    background: none;
-    border: none;
-    display: flex;
-    border-radius: .15rem;
-    justify-content: start;
-    align-items: center;
-    cursor: pointer;
-    color: var(--text-color);
-}
-.edit-button svg{
-    transition: 200ms ease;
-}
-.edit-button:hover{
-    transition: 200ms ease;
-    background-color: var(--select-color);
-    border-color: var(--primary-color);
-}
-.delete-button{
-    padding: 3px;
-    background: none;
-    border: none;
-    display: flex;
-    border-radius: .15rem;
-    justify-content: start;
-    align-items: center;
-    cursor: pointer;
-    color: var(--text-color);
 }
 .delete-button:hover svg{
     transition: 200ms ease;
@@ -249,14 +200,21 @@ input[type="checkbox"]:checked ~ .custom-checkbox{
 input[type="checkbox"]:checked ~ .custom-checkbox svg{
     fill: var(--primary-color);
 }
-input[type="checkbox"]:checked ~ .todo-quantity {
+input[type="checkbox"]:checked ~ .quantity-buttons :is(.plus-one-button, .minus-one-button){
+    background-color: var(--primary-color);    
+    color: var(--primary-color);
+}
+input[type="checkbox"]:checked ~ .quantity-buttons :is(.plus-one-button, .minus-one-button) svg{
+    fill: var(--secondary-color);
+}
+input[type="checkbox"]:checked ~ :is(.todo-text, .todo-quantity){
     text-decoration: line-through;
     color: var(--secondary-color);
     background-color: var(--primary-color);
 }
-input[type="checkbox"]:checked ~ .todo-text {
-    text-decoration: line-through;
+input[type="checkbox"]:checked ~ .deadline :is(.deadline-date-input, .deadline-time-input){
     color: var(--secondary-color);
+    background-color: var(--primary-color);
 }
 input[type="checkbox"] {
     display: none;
