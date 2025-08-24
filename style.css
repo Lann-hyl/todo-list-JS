@@ -134,10 +134,11 @@ form{
     border-color: var(--primary-color);
 }
 .deadline{
-    display:inline;
+    display:flex;
+    flex-grow: 0;
     font-size: 14pt;
 }
-.deadline-form{
+.deadline-date-input, .deadline-time-input{
     background: none;
     border: none;
     align-items: center;

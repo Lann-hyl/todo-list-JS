@@ -22,6 +22,17 @@ function toIsoString(date) {
       'T' + pad(date.getHours()) +
       ':' + pad(date.getMinutes());
 }
+
+function toDateIsoString(date) {
+  return date.getFullYear() +
+      '-' + pad(date.getMonth() + 1) +
+      '-' + pad(date.getDate());
+}
+
+function toTimeIsoString(date) {
+  return pad(date.getHours()) +
+      ':' + pad(date.getMinutes());
+}
 // ========================================================
 
 // Closes any open dropdown menu when clicking outside
@@ -49,7 +60,8 @@ function addTodo() {
         const todoObject = {
             quantity: 1.0,
             displayQuantity: false,
-            deadline: new Date(),
+            deadlineDate: new Date(),
+            deadlineTime: new Date(),
             displayDeadline: false,
             text: todoText,
             completed: false
@@ -72,7 +84,10 @@ function updateTodoList() {
         }
         if (!('displayDeadline' in todo)) {
             todo.displayDeadline = false;
-            todo.deadline = new Date();
+        }
+        if (!('deadlineDate' in todo)) {
+            todo.deadlineDate = new Date();
+            todo.deadlineTime = new Date();
         }
         todoItem = createTodoItem(todo, todoIndex);
         todoListUl.append(todoItem);
@@ -110,8 +125,8 @@ function createTodoItem(todo, todoIndex) {
 
 
         <div for="${todoID}" class="deadline" style="display:none">
-            <label>due by:</label>
-            <input id="${todoID}" class="deadline-form" type="datetime-local" value="${toIsoString(todo.deadline)}"></input>
+            <input id="${todoID}" class="deadline-date-input" type="date" value="${todo.deadlineDate.getTime() !== 0 ? toDateIsoString(todo.deadlineDate) : ""}"></input>
+            <input id="${todoID}" class="deadline-time-input" type="time" value="${todo.deadlineTime.getTime() !== 0 ? toTimeIsoString(todo.deadlineTime) : ""}"></input>
         </div>
 
         <div for="${todoID}" class="dropdown">
@@ -186,13 +201,31 @@ function createTodoItem(todo, todoIndex) {
 
     // Deadline display
     if (todo.displayDeadline) {
-        todoLI.querySelector(".deadline").style.display = "inline";
+        todoLI.querySelector(".deadline").style.display = "flex";
     }
 
     const deadlineToggle = todoLI.querySelector(".deadlineToggle-button");
     deadlineToggle.addEventListener("click", () => {
         toggleTodoDeadline(todoIndex);
     })
+
+    const deadlineDateInput = todoLI.querySelector(".deadline-date-input");
+    deadlineDateInput.addEventListener("change", e => {
+        if (e.target.value) 
+            todo.deadlineDate = new Date(e.target.value);
+        else
+            todo.deadlineDate = new Date(0);
+        saveTodos();
+    })  
+    const deadlineTimeInput = todoLI.querySelector(".deadline-time-input");
+    deadlineTimeInput.addEventListener("change", e => {
+        if (e.target.value) 
+            // The date doesn't matter, we only need time
+            todo.deadlineTime = new Date("1970-01-01T" + e.target.value);
+        else
+            todo.deadlineTime = new Date(0);
+        saveTodos();
+    }) 
 
 
     // Edit Button
@@ -312,7 +345,7 @@ function saveTodos() {
 function loadTodos() {
     const todos = localStorage.getItem("todos") || "[]";
     return JSON.parse(todos, (key, value) => {
-        if (key === "deadline") {
+        if (key === "deadlineDate" || key === "deadlineTime") {
             return new Date(value);
         }
         return value;
