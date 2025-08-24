@@ -100,6 +100,8 @@ form{
     padding-right: 0;
     flex-grow: 1;
     transition: 200ms ease;
+    overflow:hidden;
+    overflow-wrap: break-word;
 }
 .todo.dragging :where(.custom-checkbox, .todo-text, .dropdown){
     opacity: 0.5;
