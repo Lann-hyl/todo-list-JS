@@ -152,7 +152,7 @@ form{
     transition: 200ms ease;
     cursor: text;
 }
-.deadlineToggle-button, .quantityToggle-button, .edit-button, .delete-button{
+.deadlineToggle-button, .quantityToggle-button, .descriptionToggle-button, .edit-button, .delete-button{
     padding: 3px;
     background: none;
     border: none;
@@ -163,10 +163,10 @@ form{
     cursor: pointer;
     color: var(--text-color);
 }
-:is(.deadlineToggle-button, .quantityToggle-button, .edit-button) svg{
+:is(.deadlineToggle-button, .quantityToggle-button, .descriptionToggle-button, .edit-button) svg{
     transition: 200ms ease;
 }
-:is(.deadlineToggle-button, .quantityToggle-button, .edit-button):hover{
+:is(.deadlineToggle-button, .quantityToggle-button, .descriptionToggle-button, .edit-button):hover{
     transition: 200ms ease;
     background-color: var(--select-color);
     border-color: var(--primary-color);
