@@ -80,19 +80,32 @@ form{
     margin-top: 10px;
     padding: 0 16px;
     background-color: var(--primary-color);
-    border-radius: 15px;
     display: flex;
     align-items: center;
 }
-.todo-description{
+.todo-description-window{
     border-width: 10px;
     border-color: var(--primary-color);
-    border-radius: 15px;
+    border-radius: 0px 0px 15px 15px;
+    padding-left: 10px;
     position: relative;
     display: inline-block;
+    overflow:hidden;
+    overflow-wrap: break-word;
     background-color: var(--ternary-color);
     padding: 3px;
     transition: opacity 200ms ease, transform 200ms ease;
+}
+.todo-description-window > h5{
+    padding-left: 10px;
+}
+.todo-description{
+    padding-left: 10px;
+}
+.todo-description:focus{
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59,130,246); 
+    border-radius: 0px 0px 15px 15px;
 }
 .todo-quantity{
     background: none;
@@ -224,9 +237,12 @@ input[type="checkbox"]:checked ~ .quantity-buttons :is(.plus-one-button, .minus-
     fill: var(--secondary-color);
 }
 input[type="checkbox"]:checked ~ :is(.todo-text, .todo-quantity){
-    text-decoration: line-through;
     color: var(--secondary-color);
     background-color: var(--primary-color);
+}
+.todo-wrapper:has([type="checkbox"]:checked){
+    text-decoration: line-through;
+    color: var(--secondary-color);
 }
 input[type="checkbox"]:checked ~ .deadline :is(.deadline-date-input, .deadline-time-input){
     color: var(--secondary-color);
