@@ -1,7 +1,7 @@
 :root{
     --background: #101114;
     --primary-color: #1C1D20;
-    --secondary-color: #4A4D57;
+    --secondary-color: #3f4149;
     --ternary-color: #2b2b31;
     --select-color: #383940;
     --accent-color: #00CFE0;
@@ -89,8 +89,8 @@ form{
     border-radius: 0px 0px 15px 15px;
     padding-left: 10px;
     position: relative;
-    display: inline-block;
-    overflow:hidden;
+    flex-direction: column;
+    overflow: hidden;
     overflow-wrap: break-word;
     background-color: var(--ternary-color);
     padding: 3px;
@@ -101,6 +101,9 @@ form{
 }
 .todo-description{
     padding-left: 10px;
+    border-radius: 0px 0px 15px 15px;
+    background-color: var(--secondary-color);
+    white-space: pre-wrap;
 }
 .todo-description:focus{
     outline: none;

@@ -162,12 +162,10 @@ function createTodoItem(todo, todoIndex) {
                 </div>
             </div>
         </div>
-        <div class="todo-description-window">
+        <div class="todo-description-window" style="display:none">
             <h5>Description</h5>
-            
-            <p class="todo-description" contenteditable=true>${todo.description ? "Test" : "Test"}</p>
+            <p class="todo-description" contenteditable=true>${todo.description}</p>
         </div>
-        
         `;
     
     // Add event listeners
@@ -182,11 +180,27 @@ function createTodoItem(todo, todoIndex) {
         });
     });
 
+    const descriptionToggle = todoLI.querySelector(".descriptionToggle-button");
+    descriptionToggle.addEventListener("click", () => {
+        toggleTodoDescription(todoIndex);
+    })
+
+    // Description Display
     if (todo.displayDescription) {
         todoLI.querySelector(".todo").style.borderRadius = "15px 15px 0px 0px";
+        todoLI.querySelector(".todo-description-window").style.display = "flex";
     } else {
         todoLI.querySelector(".todo").style.borderRadius = "15px";
     }
+    
+    const descriptionInput = todoLI.querySelector(".todo-description");
+    descriptionInput.addEventListener("blur", () => {
+        const newValue = descriptionInput.innerText;
+        if (newValue !== todo.description) {
+            todo.description = newValue;
+            saveTodos();
+        }
+    })  
 
     // Quantity Display
     if (todo.displayQuantity) {
@@ -299,6 +313,14 @@ function createTodoItem(todo, todoIndex) {
     deadlineTimeInput.disabled = todo.completed;
 
     return todoLI;
+}
+
+// Show or hide todo quantity
+function toggleTodoDescription(todoIndex) {
+    let todo = todoList[todoIndex];
+    todo.displayDescription = !todo.displayDescription;
+    updateTodoList();
+    saveTodos();
 }
 
 // Show or hide todo quantity
