@@ -39,6 +39,24 @@ h1{
     flex-direction: column;
     gap: 10px;
 }
+#save-load{
+    display: flex;
+    flex-direction: row;
+    gap:0px;
+    justify-content: right;
+}
+#save-load > button{
+    background-color: var(--secondary-color);
+    border-color: var(--primary-color);
+    border-radius: 10px;
+    padding: 10px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+#save-load > button:hover{
+    transition: 200ms ease;
+    background-color: var(--select-color);
+}
 .todo-wrapper{
     width: 100%;
     max-width: 100%;

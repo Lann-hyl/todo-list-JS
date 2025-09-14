@@ -48,6 +48,13 @@ document.addEventListener('click', e => {
     }
 });
 
+
+// Download todo list to user machine
+document.getElementById("download-button").addEventListener("click", () => {
+    saveTodos();
+    download(JSON.stringify(todoList), "todolist.json", "application/json");
+});
+
 todoForm.addEventListener('submit', function(e) {
     e.preventDefault();
     addTodo();
@@ -405,4 +412,14 @@ function loadTodos() {
         }
         return value;
     });
+}
+
+// Download file to user machine
+function download(content, filename, contentType) {
+    var a = document.createElement("a");
+    var fileToSave = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(fileToSave);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
 }
