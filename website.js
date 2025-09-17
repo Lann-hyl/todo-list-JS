@@ -423,3 +423,36 @@ function download(content, filename, contentType) {
     a.click();
     URL.revokeObjectURL(a.href);
 }
+
+// Load TODO list from a json file
+function loadTodosFromFile(file) {
+    var reader = new FileReader();
+    reader.onload = function(e){
+        try {
+            todoList = JSON.parse(e.target.result || "[]", (key, value) => {
+                if (key === "deadlineDate" || key === "deadlineTime") {
+                    return new Date(value);
+                }
+                    return value;
+            });
+            updateTodoList();
+            saveTodos();
+        }   catch(err) {
+            todoList = [];
+        }
+    };
+    reader.onerror = () => {
+        todoList = [];
+    }
+    reader.readAsText(file);
+}
+
+document.getElementById("file-input").addEventListener("change", e => {
+    var file = e.target.files[0];
+    const isJSON = file && (file.type === "application/json" || file.name.toLowerCase().endsWith(".json"));
+    if (!isJSON) {
+        alert("Please select a valid JSON file");
+    } else {
+        loadTodosFromFile(file);
+    }
+});

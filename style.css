@@ -39,21 +39,27 @@ h1{
     flex-direction: column;
     gap: 10px;
 }
+input[type="file"] {
+    display: none;
+}
 #save-load{
     display: flex;
     flex-direction: row;
-    gap:0px;
+    gap:3px;
     justify-content: right;
 }
-#save-load > button{
+#download-button, .upload-button{
     background-color: var(--secondary-color);
+    border: none;
     border-color: var(--primary-color);
     border-radius: 10px;
+    font: inherit;
+    font-size: 10pt;
     padding: 10px;
     color: var(--text-color);
     cursor: pointer;
 }
-#save-load > button:hover{
+:is(#download-button, .upload-button):hover{
     transition: 200ms ease;
     background-color: var(--select-color);
 }
